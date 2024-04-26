@@ -27,6 +27,24 @@ const register = async (req,res)=>{
         console.log("error");
         res.send(error);
     }
+    
+    // New Code
+      //   const user = {
+      //     user_name:userName,
+      //     email:email,
+      //     phone:phone
+      // }
+      // const response = User.create(user).then(async ()=>{
+
+      //     res.send({
+      //     "statusCode":201,
+      //     "msg":"User Created Successfully"
+      // });
+
+      // }).catch((error)=>{
+      //     console.log(error);
+      //     res.send(error);
+      // })
 }
 
 const getAllUser = (req,res)=>{
@@ -51,8 +69,32 @@ const getAllUser = (req,res)=>{
     }
 }
 
+const getUserById = (req,res)=>{
+    let id = req.params.id;
+    try {
+        User.findByPk(id)
+          .then((user) => {
+            if (user) {
+              res.send(user);
+            } else {
+              console.log('User not found.');
+              res.send({
+                msg:"no user found"
+              })
+            }
+          })
+          .catch((error) => {
+            console.error('Error querying user:', error);
+            res.send(error);
+          });
+    } catch (error) {
+        res.send(error);
+    }
+}
+
 
 module.exports = {
     register,
-    getAllUser
+    getAllUser,
+    getUserById
 }

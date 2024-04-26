@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const { DATABASE_NAME,
   DATABASE_USERNAME,
   DATABASE_PASSWORD,
@@ -27,4 +27,15 @@ console.error('Unable to connect to the database: ', error);
 });
 
 
-module.exports = { sequelize };
+// Query
+
+const db = {};
+db.sequelize = sequelize;
+
+db.users = require('../models/user_model.js')(sequelize, DataTypes);
+
+db.sequelize.sync({ force:false}).then(()=>{
+  console.log('yes re-sync done!')
+})
+
+module.exports = { db };
